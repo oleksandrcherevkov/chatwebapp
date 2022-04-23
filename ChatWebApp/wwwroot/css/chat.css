@@ -1,0 +1,222 @@
+.chat-container {
+    float:left;
+    display: block;
+    width: 40%;
+    height: 100%;
+}
+
+.chat-messages-container {
+    overflow-y: scroll;
+    max-width: 100%;
+    height: 800px;
+}
+
+
+
+.message-container {
+    width: 100%;
+    max-height: 20%;
+}
+
+.message {
+    vertical-align: right;
+    padding: 5px;
+    margin: 10px;
+    max-width: 800px;
+    background-color: rgb(60, 77, 92);
+    color: azure;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 10px;
+}
+
+.message-foreign {
+    vertical-align: left;
+    background-color: rgb(33, 37, 41);
+}
+
+.inline-link:link {
+    color: rgb(177, 177, 177);
+    text-decoration: none;
+}
+
+.inline-link:hover {
+    background-color: rgb(231, 231, 231);
+    transition-duration: .3s;
+    text-decoration: none;
+}
+
+.inline-link:visited {
+    color: rgb(177, 177, 177);
+    text-decoration: none;
+}
+
+
+
+.message-header {
+    margin: 5px;
+    max-width: 100%;
+}
+
+.message-text {
+    display: flex;
+    margin: 5px;
+    max-width: 100%;
+}
+
+.message-footer {
+    margin: 5px;
+    max-width: 100%;
+}
+
+
+.chat {
+    display: flex;
+    width: 100%;
+    height: 10%;
+    margin: 10px;
+
+}
+
+.chat-form {
+    width: 90%;
+    height: 50%;
+}
+
+.chat-input {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(33 36 40);
+    color: azure;
+}
+
+.chat-submit {
+    float: right;
+    display: inline-block;
+    width: 21%;
+    height: 100%;
+    border: 2px;
+    outline: 0;
+    background-color: rgb(33 36 40);
+    color: darkgray;
+}
+
+
+.paging-block {
+    width: 5%;
+    height: 40%;
+    margin-left: 5px;
+}
+
+.paging-button {
+    width: 100%;
+    height: 40%;
+    border: 2px;
+    outline: 0;
+    background-color: rgb(33 36 40);
+    color: darkgray;
+}
+.paging-button-text {
+    color: darkgray;
+}
+
+
+.members-container {
+    display: inline-block;
+    max-width: 40%;
+    height: 600px;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.member {
+    border-radius: 25px;
+    border: 2px solid;
+    padding: 10px;
+    width: 250px;
+    height: 90px;
+    margin: 5px;
+    margin-top: 20px;
+    border-color: azure;
+    transition-duration: .3s;
+}
+
+.link-block {
+    display: block;
+}
+
+.link:link .member {
+    color: azure
+}
+
+.link:hover .member {
+    background-color: darkgrey;
+    transition-duration: .3s;
+}
+
+.link:visited .member {
+    color: azure;
+}
+
+.member-image-container {
+    float: left;
+    display: block;
+    max-height: 100%;
+    max-width: 30%;
+}
+
+.member-image {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 20%;
+}
+
+.member-name {
+    float: right;
+    display: block;
+    width: 60%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 5px;
+    text-align: center;
+    color: azure;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    overflow-y: hidden;
+}
+show-container{
+    display: flex;
+}
+.show-messages-container {
+    width: 90%;
+}
+.show-chat {
+    display: flex;
+    width: 100%;
+    height: 50%;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+
+div::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: rgba(245, 245, 245,.3);
+}
+
+div::-webkit-scrollbar {
+    border-radius: 10px;
+    width: 12px;
+    background-color: rgba(245, 245, 245,.3);
+}
+
+div::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: rgb(33, 37, 41);
+}

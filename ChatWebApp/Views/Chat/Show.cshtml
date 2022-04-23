@@ -1,0 +1,84 @@
+﻿@model ChatWebApp.Models.Chat.ChatMessageCombined
+@{
+    ViewData["Title"] = Model.Message.SenderName;
+    ViewData["UserId"] = Model.UserId;
+}
+<div class="group-container">
+    <div class="chat-container">
+        <div class="show-messages-container">
+
+            @if (@Model.Message.SenderId == Model.UserId)
+            {
+                <div class="message-container">
+                    <div class="message">
+                        <div class="message-header">
+                            <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.SenderId" asp-route-userId="@Model.UserId" asp-route-page="1">@Model.Message.SenderName</a>
+                            @if (@Model.Message.ResponseToId is not null){
+                                <span>
+                                answers to 
+                                <a asp-controller="Chat" asp-action="Show" asp-route-messageId="@Model.Message.ResponseToId" asp-route-userId="@Model.UserId">message</a>
+                                </span>
+                            }
+                        </div>
+                        <div class="message-text">@Model.Message.Text</div>
+                        <div class="message-footer">
+                            <a class="inline-link" asp-controller="Chat" asp-action="Show" asp-route-messageId="@Model.Message.Id" asp-route-userId="@Model.UserId" >Answer</a> 
+                            <a class="inline-link" asp-controller="Chat" asp-action="Edit" asp-route-messageId="@Model.Message.Id">Edit</a> 
+                            <a class="inline-link" asp-controller="Chat" asp-action="Delete" asp-route-messageId="@Model.Message.Id" asp-route-responcerId="@Model.Message.ReceiverId" asp-route-userId="@Model.UserId">Delete</a>
+                             @if (!Model.Message.IsInvisiblе)
+                                {
+                                    <a class="inline-link" asp-controller="Chat" asp-action="Erase" asp-route-messageId="@Model.Message.Id" asp-route-responcerId="@Model.Message.ReceiverId" asp-route-userId="@Model.UserId">Erase</a>
+                                }
+                            Sended: @Model.Message.SendingTime.ToShortDateString()
+                            @if(@Model.Message.IsEdited){
+                                <span>Edited: @Model.Message.LastUpdateTime</span>
+                                }
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="message-container">
+                    <div class="message message-foreign">
+                        <div class="message-header">
+                            <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.SenderId" asp-route-userId="@Model.UserId" asp-route-page="1">@Model.Message.SenderName</a>
+                            @if (@Model.Message.ResponseToId is not null){
+                                <span>
+                                answers to 
+                                <a class="inline-link" asp-controller="Chat" asp-action="Show" asp-route-messageId="@Model.Message.ResponseToId">message</a>
+                                </span>
+                            }
+                        </div>
+                        <div class="message-text">@Model.Message.Text</div>
+                        <div class="message-footer">
+                            <a class="inline-link" asp-controller="Chat" asp-action="Show" asp-route-messageId="@Model.Message.Id" asp-route-userId="@Model.UserId">Answer</a> 
+                            Sended: @Model.Message.SendingTime.ToShortDateString()
+                            @if(@Model.Message.IsEdited){
+                                <span>Edited: @Model.Message.LastUpdateTime</span>
+                                }
+                        </div>
+                    </div>
+                </div>
+            }
+
+    
+        </div>
+        <div class="show-chat">  
+            @if(Model.Message.SenderId == Model.UserId)
+            {
+                <form asp-controller="Chat" asp-action="Create" asp-route-receiverId="@Model.Message.ReceiverId" asp-route-responseToId="@Model.Message.Id" asp-route-senderId="@Model.UserId" method="post" class="chat-form" id="send-message">
+                    <textarea name="text"  class="chat-input" form="send-message" required></textarea>
+                    <button class="chat-submit" type="submit" >Send your message</button>
+                </form>    
+            }
+            else
+            {
+                <form asp-controller="Chat" asp-action="Create" asp-route-receiverId="@Model.Message.SenderId" asp-route-responseToId="@Model.Message.Id" asp-route-senderId="@Model.UserId" method="post" class="chat-form" id="send-message">
+                    <textarea name="text"  class="chat-input" form="send-message" required></textarea>
+                    <button class="chat-submit" type="submit" >Send your message</button>
+                </form> 
+            }
+        </div>
+    </div>
+</div>

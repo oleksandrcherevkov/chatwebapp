@@ -1,0 +1,16 @@
+﻿@model ChatWebApp.Models.Group.GroupMessageBlock
+@{
+    ViewData["Title"] = "Editing Text";
+    ViewData["UserId"] = Model.SenderId;
+}
+<div class="group-container">
+    <div class="chat-container">
+        <div class="show-chat margin-top-20">  
+            <form asp-controller="Group" asp-action="Edit" asp-route-Id="@Model.Id" asp-route-userId="@Model.SenderId" method="post" class="chat-form" id="send-message">
+                <textarea name="text"  class="chat-input" form="send-message" required>@Model.Text</textarea>
+                <button class="chat-submit" type="submit" ><span>Edit</span></button>
+            </form> 
+
+        </div>
+    </div>
+</div>

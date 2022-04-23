@@ -1,0 +1,129 @@
+﻿@model ChatWebApp.Models.Group.GroupCombined
+@{
+    ViewData["Title"] = Model.GroupInfo.GroupName;
+    ViewData["GroupId"] = Model.GroupInfo.GroupId;
+    ViewData["UserId"] = Model.UserId;
+    ViewData["GroupName"] = Model.GroupInfo.GroupName;
+}
+
+
+<div class="group-container">
+    <div class="chat-container">
+    <div class="chat-messages-container">
+                   @foreach(var message in Model.Messages)
+                    {
+
+                                if (message.SenderId == Model.UserId)
+                                {
+                                    <div class="message-container">
+                                        <div class="message">
+                                            <div class="message-header">
+                                                <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@message.SenderId" asp-route-userId="@Model.UserId" asp-route-page="1">@message.SenderName</a>
+                                                @if (message.ResponseToMessageId is not null){
+                                                    <span>
+                                                    answers to 
+                                                    <a class="inline-link" asp-controller="Group" asp-action="Show" asp-route-messageId="@message.ResponseToMessageId" asp-route-userId="@Model.UserId">message</a>
+                                                    from
+                                                    <a class="inline-link" asp-controller="Chat" asp-action="Index"  asp-route-responcerId="@message.ResponseReceiverId" asp-route-userId="@Model.UserId" asp-route-page="1">@message.ResponseReceiverName</a>
+                                                    </span>
+                                                    @if(message.IsHidden)
+                                                    {
+                                                        <span>Hidden</span>
+                                                    }
+                                                }
+                                    
+                                            </div>
+                                            <div class="message-text">@message.Text</div>
+                                            <div class="message-footer">
+                                                <a class="inline-link" asp-controller="Group" asp-action="Show" asp-route-messageId="@message.Id" asp-route-userId="@Model.UserId" >Answer</a> 
+                                                <a class="inline-link" asp-controller="Group" asp-action="Edit"  asp-route-messageId="@message.Id" >Edit</a> 
+                                                <a class="inline-link"  asp-controller="Group" asp-action="Delete" asp-route-groupId="@Model.GroupInfo.GroupId" asp-route-messageId="@message.Id" asp-route-userId="@Model.UserId">Delete</a>
+                                                @if (!message.IsInvisible)
+                                                {
+                                                    <a class="inline-link" asp-controller="Group" asp-action="Erase" asp-route-groupId="@Model.GroupInfo.GroupId" asp-route-messageId="@message.Id" asp-route-userId="@Model.UserId">Erase</a>
+                                                }
+
+                                                Sended: @message.SendingTime.ToShortDateString()
+                                                @if(@message.IsEdited){
+                                                    <span>Edited: @message.LastUpdateTime</span>
+                                                 }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="message-container">
+                                        <div class="message message-foreign">
+                                            <div class="message-header">
+                                                <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@message.SenderId" asp-route-userId="@Model.UserId" asp-route-page="1">@message.SenderName</a>
+                                                @if (message.ResponseToMessageId is not null){
+                                                    <span>
+                                                    answers to 
+                                                    <a class="inline-link" asp-controller="Group" asp-action="Show" asp-route-messageId="@message.ResponseToMessageId" asp-route-userId="@Model.UserId">message</a>
+                                                    from
+                                                    <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@message.ResponseReceiverId" asp-route-userId="@Model.UserId" asp-route-page="1">@message.ResponseReceiverName</a>
+                                                    </span>
+                                                    @if(message.IsHidden)
+                                                    {
+                                                        <span>Hidden</span>
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="message-text">@message.Text</div>
+                                            <div class="message-footer">
+                                                <a class="inline-link" asp-controller="Group" asp-action="Show" asp-route-messageId="@message.Id" asp-route-userId="@Model.UserId">Answer</a> 
+                                                Sended: @message.SendingTime.ToShortDateString()
+                                                @if(@message.IsEdited){
+                                                    <span>Edited: @message.LastUpdateTime</span>
+                                                 }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                    }
+     </div>
+    <div class="chat">  
+        <form asp-controller="Group" asp-action="Create" asp-route-groupId="@Model.GroupInfo.GroupId" asp-route-userId="@Model.UserId" method="post" class="chat-form" id="send-message">
+            <textarea name="text"  class="chat-input" form="send-message" required></textarea>
+            <button class="chat-submit" type="submit" ><span>Send</span></button>
+        </form> 
+        <div class="paging-block">
+                @{++@Model.Page;}
+                @if (Model.Messages.Count == 20)
+                {
+                    <button class="paging-button">
+                        <a class="inline-link" asp-controller="Group" asp-action="Index" asp-route-groupId="@Model.GroupInfo.GroupId" asp-route-userId="@Model.UserId" asp-route-page="@Model.Page">▲</a>
+                    </button>
+                }
+
+                @{--@Model.Page;}
+                @if (@Model.Page-- != 1)
+                {
+                    <button class="paging-button">
+                         <a class="inline-link" asp-controller="Group" asp-action="Index" asp-route-groupId="@Model.GroupInfo.GroupId" asp-route-userId="@Model.UserId" asp-route-page="@Model.Page" >▼</a>
+                    </button>
+                }
+                @{++@Model.Page;}
+        </div>
+
+    </div>
+ </div> 
+
+        <div class="members-container">
+        @foreach(var member in @Model.GroupInfo.Members)
+        {
+            <a class="inline-link" class="link link-block" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@member.UserId" asp-route-userId="@Model.UserId" asp-route-page="1">
+                <div class="member">
+                    <div class="member-image-container">
+                        <img class="member-image" src="@member.ProfileImageUrl" alt="Picture">
+                    </div>
+                    <div class="member-name">@member.UserName</div>
+                </div>
+            </a>
+        }
+            
+            
+        </div>
+
+</div>

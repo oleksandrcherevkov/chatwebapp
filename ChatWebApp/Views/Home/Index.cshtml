@@ -1,0 +1,46 @@
+﻿@model ChatWebApp.Models.Home.GroupsChatsCombined
+@{
+    ViewData["Title"] = "Home Page";
+    ViewData["UserId"] = @Model.UserId;
+}
+
+<div class="tablets-container">
+    @foreach(var group in Model.Groups)
+    {
+
+            <a class="link" asp-controller="Group" asp-action="Index" asp-route-groupId="@group.GroupId" asp-route-userId="@Model.UserId"  asp-route-page="1">
+                <div class="tablet">
+                    <div class="tablet-image-container" >
+                        <img class="tablet-image" src="@group.GroupImageUrl" alt="Picture">
+                    </div>
+                    <div class="tablet-info-container">
+                        <div class="tablet-info-name">
+                            <P class="tablet-info-name-text">@group.GroupName</P>
+                        </div>
+                        <div class="tablet-info-footer">
+                                <img class="tablet-info-footer-users-icon" src="~/icons/users-icon.png" alt="M">
+                                <p class="tablet-info-footer-users-count">@group.MembersCount</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+    }
+    @foreach(var chat in Model.Chats)
+    {
+
+            <a class="link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@chat.UserId" asp-route-userId="@Model.UserId"  asp-route-page="1">
+                <div class="tablet">
+                    <div class="tablet-image-container" >
+                        <img class="tablet-image" src="@chat.ProfileImageUrl" alt="Picture">
+                    </div>
+                    <div class="tablet-info-container">
+                        <div class="tablet-info-name">
+                            <P class="tablet-info-name-text">@chat.UserName</P>
+                        </div>
+                        <div class="tablet-info-footer">
+                        </div>
+                    </div>
+                </div>
+            </a>
+    }
+ </div>
