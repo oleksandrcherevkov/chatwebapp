@@ -119,6 +119,16 @@ namespace ChatApi.Services.PrivateMessages
             if (message is null)
                 return 0;
 
+            var hasDependent = await _dbContext.Entry(message)
+                .Collection(m => m.Responses).Query().AnyAsync();
+
+            if (hasDependent)
+            {
+                AddError($"Message with ID {messageId} could not be deleted. Message has answers.");
+                return 0;
+            }
+
+
             _dbContext.Remove(message);
 
             return await _dbContext.SaveChangesAsync();
