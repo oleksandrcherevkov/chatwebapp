@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using ChatApi.Services.Database.SetupHelpers;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace ChatApi.HelperExtensions
 {
@@ -53,8 +54,9 @@ namespace ChatApi.HelperExtensions
                 }
                 catch (Exception ex)                                                                                //#F
                 {
-                    Console.WriteLine("An error occurred while creating/migrating or seeding the database.\n"
-                                      + ex.Message);
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogCritical(ex, "An error occurred while creating/migrating or seeding the database.");
+                    
 
                     await context.Database.EnsureDeletedAsync();
 
@@ -70,7 +72,7 @@ namespace ChatApi.HelperExtensions
     #C: If there are penging migrations, try to fill the database.
     #D: Get seed files names from config.
     #E: Seed users with groups from json files, only if database is empty.
-    #F: If exeption occured, send message and detete database. 
+    #F: If exeption occured, log error and detete database. 
         If database if fully migarted and error occured on the seeding stage, the seeding script would not be executed next time.
     ====================================================*/
 }
