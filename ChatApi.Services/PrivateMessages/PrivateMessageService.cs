@@ -8,6 +8,7 @@ using ChatApi.EF.Models;
 using ChatApi.Services.GeneralOptions;
 using ChatApi.Services.PrivateMessages.QueryObjects;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ChatApi.Services.PrivateMessages
 {
@@ -17,9 +18,12 @@ namespace ChatApi.Services.PrivateMessages
     public class PrivateMessageService : ServiceErrors
     {
         private readonly ChatDbContext _dbContext;
-        public PrivateMessageService(ChatDbContext dbContext)
+        private readonly ILogger<PrivateMessageService> _logger;
+
+        public PrivateMessageService(ChatDbContext dbContext, ILogger<PrivateMessageService> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public IQueryable<PrivateMessageListDto> ListMessages(ListPrivateMessageOptions options)
@@ -38,6 +42,8 @@ namespace ChatApi.Services.PrivateMessages
             }
             catch (ArgumentOutOfRangeException ex)
             {
+                _logger.LogWarning(ex, "Request of an user (ID: {UserID}) to list " +
+                    "the chat with the user (ID: {ResponcerId}) has been denied in case of wrong paging options.", options.UserId, options.ResponcerId);
                 AddError(ex.Message, ex?.ParamName ?? "UNKNOWN");
             }
 
@@ -52,7 +58,11 @@ namespace ChatApi.Services.PrivateMessages
                 .FirstOrDefaultAsync(m => m.Id == messageId);
 
             if (message is null)
+            {
+                _logger.LogWarning("Message {MessageId} does not exist", messageId);
                 AddError($"Message {messageId} does not exist", nameof(messageId));
+            }
+                
 
             return message;
         }
@@ -63,7 +73,10 @@ namespace ChatApi.Services.PrivateMessages
                 .FirstOrDefaultAsync(m => m.PrivateMessageId == messageId);
 
             if (message is null)
+            {
+                _logger.LogWarning("Message {MessageId} does not exist", messageId);
                 AddError($"Message {messageId} does not exist", nameof(messageId));
+            }
 
             return message;
         }
@@ -124,6 +137,7 @@ namespace ChatApi.Services.PrivateMessages
 
             if (hasDependent)
             {
+                _logger.LogWarning("Message with ID {MessageId} could not be deleted. Message has answers.", messageId);
                 AddError($"Message with ID {messageId} could not be deleted. Message has answers.");
                 return 0;
             }

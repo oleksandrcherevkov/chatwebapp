@@ -7,15 +7,19 @@ using ChatApi.EF;
 using ChatApi.Services.Groups.QueryObjects;
 using ChatApi.Services.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ChatApi.Services.Groups
 {
     public class GroupService : ServiceErrors
     {
         private readonly ChatDbContext _dbContext;
-        public GroupService(ChatDbContext dbContext)
+        private readonly ILogger<GroupService> _logger;
+
+        public GroupService(ChatDbContext dbContext, ILogger<GroupService> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
         /// <summary>
         /// Get all groups info of particular user.
@@ -46,7 +50,11 @@ namespace ChatApi.Services.Groups
             var group = await groupQuery.FirstOrDefaultAsync();
 
             if (group is null)
+            {
+                _logger.LogWarning("Group with ID {GroupId} does not exist.", groupId);
                 AddError($"Group with ID {groupId} does not exist.", nameof(groupId));
+            }
+                
 
             return group;
         }

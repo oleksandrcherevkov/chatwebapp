@@ -8,6 +8,7 @@ using ChatApi.EF.Models;
 using ChatApi.Services.GeneralOptions;
 using ChatApi.Services.GroupMessages.QueryObjects;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ChatApi.Services.GroupMessages
 {
@@ -17,9 +18,12 @@ namespace ChatApi.Services.GroupMessages
     public class GroupMessageService : ServiceErrors
     {
         private readonly ChatDbContext _dbContext;
-        public GroupMessageService(ChatDbContext dbContext)
+        private readonly ILogger<GroupMessageService> _logger;
+
+        public GroupMessageService(ChatDbContext dbContext, ILogger<GroupMessageService> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
         public IQueryable<GroupMessageListDto> ListMessages(ListGroupMessageOptions options)
         {
@@ -34,6 +38,8 @@ namespace ChatApi.Services.GroupMessages
             }
             catch (ArgumentOutOfRangeException ex)
             {
+                _logger.LogWarning(ex, "Request of an user (ID: {UserID}) to list " +
+                    "the group (ID: {GroupId}) has been denied in case of wrong paging options.", options.UserId, options.GroupId);
                 AddError(ex.Message, ex?.ParamName ?? "UNKNOWN");
             }
 
@@ -46,8 +52,12 @@ namespace ChatApi.Services.GroupMessages
                 .MapToDto()
                 .FirstOrDefaultAsync(m => m.Id == messageId);
 
-            if (message is null)
+            if (message is null) 
+            {
+                _logger.LogWarning("Message with ID {MessageId} does not exist", messageId);
                 AddError($"Message with ID {messageId} does not exist", nameof(messageId));
+            }
+                
 
             return message;
         }
@@ -57,7 +67,10 @@ namespace ChatApi.Services.GroupMessages
                 .FirstOrDefaultAsync(m => m.GroupMessageId == messageId);
 
             if (message is null)
-                AddError($"Message {messageId} does not exist", nameof(messageId));
+            {
+                _logger.LogWarning("Message with ID {MessageId} does not exist", messageId);
+                AddError($"Message with ID {messageId} does not exist", nameof(messageId));
+            }
 
             return message;
         }

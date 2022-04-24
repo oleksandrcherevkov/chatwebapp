@@ -6,15 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChatApi.Services.Users.QueryObjects;
+using Microsoft.Extensions.Logging;
 
 namespace ChatApi.Services.Users
 {
     public class UserService : ServiceErrors
     {
         private readonly ChatDbContext _dbContext;
-        public UserService(ChatDbContext dbContext)
+        private readonly ILogger<UserService> _logger;
+
+        public UserService(ChatDbContext dbContext, ILogger<UserService> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
         /// <summary>
         /// Get all users info, that have a conversation a particular user.
@@ -46,7 +50,11 @@ namespace ChatApi.Services.Users
             var user = await userQuery.SingleOrDefaultAsync();
 
             if (user is null)
+            {
+                _logger.LogWarning("User with ID {UserId} does not exist", userId);
                 AddError($"User with ID {userId} does not exist", nameof(userId));
+            }
+                
 
             return user;
         }
