@@ -31,7 +31,12 @@ namespace ChatWebApp.Services.Chat
                 };
 
                 var messagesResponce = await client.SendAsync(messagesReques);
+                if (!messagesResponce.IsSuccessStatusCode)
+                    throw new ArgumentException();
+
                 var chatResponce = await client.GetAsync($"{_apiUrl}/user/{options.ResponcerId}");
+                if (!chatResponce.IsSuccessStatusCode)
+                    throw new ArgumentException();
 
                 var messagesJson = await messagesResponce.Content.ReadAsStringAsync();
                 var chatJson = await chatResponce.Content.ReadAsStringAsync();
@@ -60,10 +65,11 @@ namespace ChatWebApp.Services.Chat
                 var messageResponce = await client.GetAsync($"{_apiUrl}/chat/messages/{messageId}");
 
                 if (!messageResponce.IsSuccessStatusCode)
-                    return null;
+                    throw new ArgumentException();
 
                 var messageJson = await messageResponce.Content.ReadAsStringAsync();
                 var message = JsonConvert.DeserializeObject<ChatMessageBlock>(messageJson);
+
                 return message;
             }
         }

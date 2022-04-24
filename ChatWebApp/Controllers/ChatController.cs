@@ -14,58 +14,92 @@ namespace ChatWebApp.Controllers
         }
         public async Task<IActionResult> Index(GetChatOptions options)
         {
-            var chat = await _service.GetChatPagedAsync(options);
+            if(!ModelState.IsValid)
+                return NotFound();
 
-            return View(chat);
+            try
+            {
+                var chat = await _service.GetChatPagedAsync(options);
+                return View(chat);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(ChatMessage message)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _service.CreateMessageAsync(message);
-            }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var responce = await _service.CreateMessageAsync(message);
+
+            if (responce == 0)
+                return BadRequest();
+
             return RedirectToAction("Index", new { responcerId = message.ReceiverId, userId = message.SenderId, pageNum = 1 });
         }
 
         public async Task<IActionResult> Show(int messageId, int userId)
         {
-            var message = await _service.GetMessageAsync(messageId);
-
-            if (message is null)
-                return BadRequest();
-
-            var messageCombined = new ChatMessageCombined()
+            try
             {
-                Message = message,
-                UserId = userId
-            };
+                var message = await _service.GetMessageAsync(messageId);
 
-            return View(messageCombined);
+                var messageCombined = new ChatMessageCombined()
+                {
+                    Message = message,
+                    UserId = userId
+                };
+
+                return View(messageCombined);
+            }
+            catch
+            {
+                return NotFound();
+            }
+            
         }
         public async Task<IActionResult> Edit(int messageId)
         {
-            var message = await _service.GetMessageAsync(messageId);
+            try
+            {
+                var message = await _service.GetMessageAsync(messageId);
 
-            return View(message);
+                return View(message);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
         [HttpPost]
         public async Task<IActionResult> Edit(ChatMessage message)
         {
-            var respoce = await _service.UpdateMessgeTextAsync(message);
+            var responce = await _service.UpdateMessgeTextAsync(message);
+
+            if (responce == 0)
+                return BadRequest();
 
             return RedirectToAction("Show", new { messageId = message.Id, userId = message.SenderId });
         }
         public async Task<IActionResult> Delete(int messageId, int responcerId, int userId)
         {
-            var respoce = await _service.DeleteMessageAsync(messageId);
+            var responce = await _service.DeleteMessageAsync(messageId);
+
+            if (responce == 0)
+                return BadRequest();
 
             return RedirectToAction("Index", new { responcerId = responcerId, userId = userId, pageNum = 1 });
         }
         public async Task<IActionResult> Erase(int messageId, int responcerId, int userId)
         {
-            var respoce = await _service.EraseMessageAsync(messageId);
+            var responce = await _service.EraseMessageAsync(messageId);
+
+            if (responce == 0)
+                return BadRequest();
 
             return RedirectToAction("Index", new { responcerId = responcerId, userId = userId, pageNum = 1 });
         }
