@@ -26,9 +26,9 @@ namespace ChatWebApp.Controllers
         }
 
         
-        public IActionResult Error()
-        {
-            return View();
-        }
+        //public IActionResult Error()
+        //{
+        //    return View();
+        //}
     }
 }

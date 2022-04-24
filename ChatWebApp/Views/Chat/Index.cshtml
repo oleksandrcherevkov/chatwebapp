@@ -17,7 +17,7 @@
                                     <div class="message-container">
                                         <div class="message">
                                             <div class="message-header">
-                                                <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@message.SenderId" asp-route-userId="@Model.UserId" asp-route-page="1">@message.SenderName</a>
+                                                <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@message.SenderId" asp-route-userId="@Model.UserId" asp-route-pageNum="1">@message.SenderName</a>
                                                 @if (message.ResponseToId is not null){
                                                     <span>
                                                     answers to 
@@ -48,7 +48,7 @@
                                     <div class="message-container">
                                         <div class="message message-foreign">
                                             <div class="message-header">
-                                                <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@message.SenderId" asp-route-userId="@Model.UserId" asp-route-page="1">@message.SenderName</a>
+                                                <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@message.SenderId" asp-route-userId="@Model.UserId" asp-route-pageNum="1">@message.SenderName</a>
                                                 @if (message.ResponseToId is not null){
                                                     <span>
                                                     answers to 
@@ -79,7 +79,7 @@
                 @if(Model.Messages.Count == 20)
                 {
                     <button class="paging-button">
-                        <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.ResponcerInfo.UserId" asp-route-userId="@Model.UserId" asp-route-page="@Model.Page">▲</a>
+                        <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.ResponcerInfo.UserId" asp-route-userId="@Model.UserId" asp-route-pageNum="@Model.Page">▲</a>
                     </button>
                 }
                 
@@ -87,7 +87,7 @@
                 @if (@Model.Page-- != 1)
                 {
                     <button class="paging-button">
-                         <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.ResponcerInfo.UserId" asp-route-userId="@Model.UserId" asp-route-page="@Model.Page" >▼</a>
+                         <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.ResponcerInfo.UserId" asp-route-userId="@Model.UserId" asp-route-pageNum="@Model.Page" >▼</a>
                     </button>
                 }
                 @{++@Model.Page;}

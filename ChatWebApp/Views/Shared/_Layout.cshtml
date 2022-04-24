@@ -23,13 +23,13 @@
                             if(@ViewData["GroupName"] is not null)
                             { 
                                 <li class="nav-item">
-                                    <a class="nav-link text-light inline-link" asp-area="" asp-controller="Group" asp-action="Index" asp-route-groupId="@ViewData["GroupId"]" asp-route-userId="@ViewData["UserId"]" asp-route-page="1">@ViewData["GroupName"]</a>
+                                    <a class="nav-link text-light inline-link" asp-area="" asp-controller="Group" asp-action="Index" asp-route-groupId="@ViewData["GroupId"]" asp-route-userId="@ViewData["UserId"]" asp-route-pageNum="1">@ViewData["GroupName"]</a>
                                 </li>
                             }
                             if(@ViewData["ResponcerName"] is not null)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-light inline-link" asp-area="" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@ViewData["ResponcerId"]" asp-route-userId="@ViewData["UserId"]"  asp-route-page="1">@ViewData["ResponcerName"]</a>
+                                    <a class="nav-link text-light inline-link" asp-area="" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@ViewData["ResponcerId"]" asp-route-userId="@ViewData["UserId"]"  asp-route-pageNum="1">@ViewData["ResponcerName"]</a>
                                 </li>
                             }
                         }

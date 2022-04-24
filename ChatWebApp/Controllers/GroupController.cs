@@ -13,16 +13,9 @@ namespace ChatWebApp.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index(int groupId, int userId, int page)
+        public async Task<IActionResult> Index(GetGroupOptions options)
         {
-            var group = await _service.GetGroupPagedAsync(
-                new GetGroupOptions
-                {
-                    GroupId = groupId,
-                    UserId = userId,
-                    PageNum = page,
-                    PageSize = 20
-                });
+            var group = await _service.GetGroupPagedAsync(options);
             return View(group);
         }
 
@@ -33,7 +26,7 @@ namespace ChatWebApp.Controllers
             {
                 var result = await _service.CreateMessgeAsync(message);
             }
-            return RedirectToAction("Index", new {groupId = message.GroupId, userId = message.UserId, page = 1});
+            return RedirectToAction("Index", new {groupId = message.GroupId, userId = message.UserId, pageNum = 1});
         }
 
         public async Task<IActionResult> Show(int messageId, int userId)
@@ -72,13 +65,13 @@ namespace ChatWebApp.Controllers
         {
             var respoce = await _service.DeleteMessageAsync(messageId);
 
-            return RedirectToAction("Index", new { groupId = groupId, userId = userId, page = 1 });
+            return RedirectToAction("Index", new { groupId = groupId, userId = userId, pageNum = 1 });
         }
         public async Task<IActionResult> Erase(int groupId, int messageId, int userId)
         {
             var respoce = await _service.EraseMessageAsync(messageId);
 
-            return RedirectToAction("Index", new { groupId = groupId, userId = userId, page = 1 });
+            return RedirectToAction("Index", new { groupId = groupId, userId = userId, pageNum = 1 });
         }
     }
 }

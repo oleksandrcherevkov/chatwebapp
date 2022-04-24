@@ -12,16 +12,8 @@ namespace ChatWebApp.Controllers
         {
             _service = service;
         }
-        public async Task<IActionResult> Index(int responcerId, int userId, int page)
+        public async Task<IActionResult> Index(GetChatOptions options)
         {
-            var options = new GetChatOptions()
-            {
-                UserId = userId,
-                ResponcerId = responcerId,
-                PageNum = page,
-                PageSize = 20
-            };
-
             var chat = await _service.GetChatPagedAsync(options);
 
             return View(chat);
@@ -34,7 +26,7 @@ namespace ChatWebApp.Controllers
             {
                 var result = await _service.CreateMessageAsync(message);
             }
-            return RedirectToAction("Index", new { responcerId = message.ReceiverId, userId = message.SenderId, page = 1 });
+            return RedirectToAction("Index", new { responcerId = message.ReceiverId, userId = message.SenderId, pageNum = 1 });
         }
 
         public async Task<IActionResult> Show(int messageId, int userId)
@@ -69,13 +61,13 @@ namespace ChatWebApp.Controllers
         {
             var respoce = await _service.DeleteMessageAsync(messageId);
 
-            return RedirectToAction("Index", new { responcerId = responcerId, userId = userId, page = 1 });
+            return RedirectToAction("Index", new { responcerId = responcerId, userId = userId, pageNum = 1 });
         }
         public async Task<IActionResult> Erase(int messageId, int responcerId, int userId)
         {
             var respoce = await _service.EraseMessageAsync(messageId);
 
-            return RedirectToAction("Index", new { responcerId = responcerId, userId = userId, page = 1 });
+            return RedirectToAction("Index", new { responcerId = responcerId, userId = userId, pageNum = 1 });
         }
     }
 }

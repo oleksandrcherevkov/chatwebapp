@@ -12,13 +12,13 @@
                 <div class="message-container">
                     <div class="message">
                         <div class="message-header">
-                            <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.SenderId" asp-route-userId="@Model.UserId" asp-route-page="1">@Model.Message.SenderName</a>
+                            <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.SenderId" asp-route-userId="@Model.UserId" asp-route-pageNum="1">@Model.Message.SenderName</a>
                             @if (@Model.Message.ResponseToMessageId is not null){
                                 <span>
                                 answers to 
                                 <a class="inline-link" asp-controller="Group" asp-action="Show" asp-route-messageId="@Model.Message.ResponseToMessageId" asp-route-userId="@Model.UserId">message</a>
                                 from
-                                <a class="inline-link" asp-controller="Chat" asp-action="Index"  asp-route-responcerId="@Model.Message.ResponseReceiverId" asp-route-userId="@Model.UserId" asp-route-page="1">@Model.Message.ResponseReceiverName</a>
+                                <a class="inline-link" asp-controller="Chat" asp-action="Index"  asp-route-responcerId="@Model.Message.ResponseReceiverId" asp-route-userId="@Model.UserId" asp-route-pageNum="1">@Model.Message.ResponseReceiverName</a>
                                 </span>
                                 @if(@Model.Message.IsHidden)
                                 {
@@ -49,13 +49,13 @@
                 <div class="message-container">
                     <div class="message message-foreign">
                         <div class="message-header">
-                            <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.SenderId" asp-route-userId="@Model.UserId" asp-route-page="1">@Model.Message.SenderName</a>
+                            <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.SenderId" asp-route-userId="@Model.UserId" asp-route-pageNum="1">@Model.Message.SenderName</a>
                             @if (@Model.Message.ResponseToMessageId is not null){
                                 <span>
                                 answers to 
                                 <a class="inline-link" asp-controller="Group" asp-action="Show" asp-route-messageId="@Model.Message.ResponseToMessageId">message</a>
                                 from
-                                <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.ResponseReceiverId" asp-route-userId="@Model.UserId" asp-route-page="1">@Model.Message.ResponseReceiverName</a>
+                                <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.ResponseReceiverId" asp-route-userId="@Model.UserId" asp-route-pageNum="1">@Model.Message.ResponseReceiverName</a>
                                 </span>
                                 @if(@Model.Message.IsHidden)
                                 {

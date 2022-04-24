@@ -12,7 +12,7 @@
                 <div class="message-container">
                     <div class="message">
                         <div class="message-header">
-                            <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.SenderId" asp-route-userId="@Model.UserId" asp-route-page="1">@Model.Message.SenderName</a>
+                            <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.SenderId" asp-route-userId="@Model.UserId" asp-route-pageNum="1">@Model.Message.SenderName</a>
                             @if (@Model.Message.ResponseToId is not null){
                                 <span>
                                 answers to 
@@ -42,7 +42,7 @@
                 <div class="message-container">
                     <div class="message message-foreign">
                         <div class="message-header">
-                            <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.SenderId" asp-route-userId="@Model.UserId" asp-route-page="1">@Model.Message.SenderName</a>
+                            <a class="inline-link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@Model.Message.SenderId" asp-route-userId="@Model.UserId" asp-route-pageNum="1">@Model.Message.SenderName</a>
                             @if (@Model.Message.ResponseToId is not null){
                                 <span>
                                 answers to 

@@ -8,7 +8,7 @@
     @foreach(var group in Model.Groups)
     {
 
-            <a class="link" asp-controller="Group" asp-action="Index" asp-route-groupId="@group.GroupId" asp-route-userId="@Model.UserId"  asp-route-page="1">
+            <a class="link" asp-controller="Group" asp-action="Index" asp-route-groupId="@group.GroupId" asp-route-userId="@Model.UserId"  asp-route-pageNum="1">
                 <div class="tablet">
                     <div class="tablet-image-container" >
                         <img class="tablet-image" src="@group.GroupImageUrl" alt="Picture">
@@ -28,7 +28,7 @@
     @foreach(var chat in Model.Chats)
     {
 
-            <a class="link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@chat.UserId" asp-route-userId="@Model.UserId"  asp-route-page="1">
+            <a class="link" asp-controller="Chat" asp-action="Index" asp-route-responcerId="@chat.UserId" asp-route-userId="@Model.UserId"  asp-route-pageNum="1">
                 <div class="tablet">
                     <div class="tablet-image-container" >
                         <img class="tablet-image" src="@chat.ProfileImageUrl" alt="Picture">
