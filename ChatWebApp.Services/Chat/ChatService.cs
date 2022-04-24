@@ -30,6 +30,7 @@ namespace ChatWebApp.Services.Chat
                         Encoding.UTF8, MediaTypeNames.Application.Json)
                 };
 
+
                 var messagesResponce = await client.SendAsync(messagesReques);
                 if (!messagesResponce.IsSuccessStatusCode)
                     throw new ArgumentException();

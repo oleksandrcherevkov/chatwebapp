@@ -32,8 +32,12 @@ namespace ChatWebApp.Services.Group
 
 
                 var messagesResponce = await client.SendAsync(messagesRequest);
-                var groupResponce = await client.GetAsync($"{_apiUrl}/group/{options.GroupId}");
+                if (!messagesResponce.IsSuccessStatusCode)
+                    throw new ArgumentException();
 
+                var groupResponce = await client.GetAsync($"{_apiUrl}/group/{options.GroupId}");
+                if (!groupResponce.IsSuccessStatusCode)
+                    throw new ArgumentException();
 
                 var messagesJson = await messagesResponce.Content.ReadAsStringAsync();
                 var groupsJson = await groupResponce.Content.ReadAsStringAsync();
@@ -62,7 +66,7 @@ namespace ChatWebApp.Services.Group
                 var messageResponce = await client.GetAsync($"{_apiUrl}/group/messages/{messageId}");
 
                 if(!messageResponce.IsSuccessStatusCode)
-                    return null;
+                    throw new ArgumentException();
 
                 var messageJson = await messageResponce.Content.ReadAsStringAsync();
                 var message = JsonConvert.DeserializeObject<GroupMessageBlock>(messageJson);
