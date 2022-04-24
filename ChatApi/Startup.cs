@@ -17,6 +17,7 @@ using ChatApi.Services.PrivateMessages;
 using ChatApi.Services.GroupMessages;
 using ChatApi.Services.Users;
 using ChatApi.Services.Groups;
+using Microsoft.AspNetCore.HttpLogging;
 
 namespace ChatApi
 {
@@ -38,6 +39,19 @@ namespace ChatApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ChatApi", Version = "v1" });
             });
 
+            // Add logging for requests and respoces.
+            // If Development, add bodies for more information.
+            //services.AddHttpLogging(options =>
+            //{
+            //    
+            //        options.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders |
+            //                                HttpLoggingFields.RequestBody;
+            //
+            //        options.LoggingFields = HttpLoggingFields.ResponsePropertiesAndHeaders |
+            //                                HttpLoggingFields.ResponseBody;
+            //});
+
+
             services.AddDbContext<ChatDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
             
@@ -50,6 +64,7 @@ namespace ChatApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -57,9 +72,13 @@ namespace ChatApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ChatApi v1"));
             }
 
+            app.UseHttpsRedirection();
+
+            app.UseHttpLogging();
+
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
