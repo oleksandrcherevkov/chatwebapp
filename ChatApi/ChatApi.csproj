@@ -22,4 +22,8 @@
     <ProjectReference Include="..\ChatApi.Services\ChatApi.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\ServiceDependencies\ChatWebAppApi - Web Deploy\" />
+  </ItemGroup>
+
 </Project>

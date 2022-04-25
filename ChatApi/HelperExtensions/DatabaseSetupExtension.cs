@@ -58,7 +58,7 @@ namespace ChatApi.HelperExtensions
                     logger.LogCritical(ex, "An error occurred while creating/migrating or seeding the database.");
                     
 
-                    await context.Database.EnsureDeletedAsync();
+                    //await context.Database.EnsureDeletedAsync();
 
                 }
             }
